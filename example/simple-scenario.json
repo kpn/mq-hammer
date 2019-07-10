@@ -1,0 +1,33 @@
+[
+    {
+        "t":0,
+        "subscribe":["/test/hello/#"]
+    },
+    {
+        "t":3,
+        "publish":[
+            {
+                "topic":"/test/favourite/bird",
+                "payload":"cm9sbHVsdXM="
+            }
+        ]
+    },
+    {
+        "t":6,
+        "subscribe":["/test/#"]
+    },
+    {
+        "t":10,
+        "disconnect":true
+    },
+    {
+        "t":19,
+        "subscribe":["/test/#","/real/#"],
+        "publish":[
+            {
+                "topic":"/birds/rollulus",
+                "payload":"cm91bG91bA=="
+            }
+        ]
+    }
+]
