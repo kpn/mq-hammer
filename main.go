@@ -41,7 +41,7 @@ func init() {
 	fs.StringVar(&referenceFile, "ref", "", "File with the expected reference data as JSON")
 	fs.IntVarP(&nAgents, "num-agents", "n", 1, "Number of agents to spin up")
 	fs.DurationVar(&sleep, "sleep", 250*time.Millisecond, "Duration to wait between spinning up each agent")
-	fs.StringVar(&clientIDPrefix, "client-id", "mq-hammer:"+hammer.GetVersion().GitTag, "Client ID prefix; a UUID is appended to it anyway")
+	fs.StringVar(&clientIDPrefix, "client-id", "mq-hammer:"+hammer.GetVersion().GitTag+":", "Client ID prefix; a UUID is appended to it anyway")
 	fs.StringVar(&agentLogFormat, "agent-logs", "", "Output per-agent logs to this go-templated filename, e.g. 'agent-{{ .ClientID }}.log', or - to log to stderr")
 	fs.StringVar(&credentialsFile, "credentials", "", "File with TODO")
 	fs.BoolVarP(&insecure, "insecure", "k", false, "Don't validate TLS hostnames / cert chains")
@@ -138,7 +138,7 @@ var rootCmd = &cobra.Command{
 
 		// mqtt creds from file
 		var creds MqttCredentials
-		creds = &fixedCreds{clientID: "asdfkuaoewriuweafksdjf"}
+		creds = &fixedCreds{clientID: clientIDPrefix}
 		if credentialsFile != "" { // creds from file
 			logrus.WithFields(logrus.Fields{"credentialsFile": credentialsFile}).Infof("load credentials from file")
 			fcreds, err := newMqttCredentialsFromFile(credentialsFile)

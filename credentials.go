@@ -4,6 +4,8 @@ import (
 	"encoding/csv"
 	"errors"
 	"os"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 // MqttCredentials provides mqtt credentials
@@ -18,7 +20,7 @@ type fixedCreds struct {
 }
 
 func (f *fixedCreds) Get() (string, string, string, error) {
-	return f.username, f.password, f.clientID, nil
+	return f.username, f.password, f.clientID + uuid.NewV4().String(), nil
 }
 
 type fileCreds struct {
