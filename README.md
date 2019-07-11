@@ -12,7 +12,7 @@ The primary output are metrics in the Prometheus exposition format. A summary of
 
 MQ Hammer has been used to run 60k clients concurrently on commodity hardware.
 
-One application of MQ Hammer is load testing. Another possible application is to run MQ Hammer continously with a moderate amount of agents and use its metrics to assess the performance of the system it targets.
+One application of MQ Hammer is load testing. Another possible application is to run MQ Hammer continuously with a moderate amount of agents and use its metrics to assess the performance of the system it targets.
 
 # :construction_worker: Building
 
@@ -109,7 +109,7 @@ The metrics are output to the console in a condensed form every two seconds and 
     t_firstMsg - t_subscribe: 0 samples;
     t_lastMsg - t_firstMsg  : 0 samples;
 
-The first line means that there are 64 agents, 288 subscriptions and 9 unsubscribptions have been made in total. A number of 31 messages has been published weighing 1.622kB, and 0 messages have been received. Then for the reference data, there were 0 unexpected messages received, 0 duplicates, 0 missing messages, 0 messages had an incorrect payload. Then `err` gives the mqtt errors encountered during connecting, publishing, subscribing and unsubscribing respectively.
+The first line means that there are 64 agents, 288 subscriptions and 9 unsubscriptions have been made in total. A number of 31 messages has been published weighing 1.622kB, and 0 messages have been received. Then for the reference data, there were 0 unexpected messages received, 0 duplicates, 0 missing messages, 0 messages had an incorrect payload. Then `err` gives the mqtt errors encountered during connecting, publishing, subscribing and unsubscribing respectively.
 
 The second line is a summary of the time it took to connect.
 
@@ -132,7 +132,7 @@ When this reference set it published under `/tt/example`, subscribing to `/tt/ex
 
 ## Scenario
 
-A scenario is an array of `Step` objects. Each `Step` has at least `t`, the relative time in seconds at which this Step is to be performed. Furthermore, it can contain a `publish`, a `subscribe` or a `disconnect`, each optional. `publish` is an array of messages to publish, objects with a topic and a base64 payload. `subscribe` is an array of topics to be subscribed to in this step. Any topics previously subscribed to, that are not in this set, are implicitely unsubscribed from. `disconnect` is a bool that makes the mqtt client disconnect. An example can be found [here](./example/simple-scenario.json).
+A scenario is an array of `Step` objects. Each `Step` has at least `t`, the relative time in seconds at which this Step is to be performed. Furthermore, it can contain a `publish`, a `subscribe` or a `disconnect`, each optional. `publish` is an array of messages to publish, objects with a topic and a base64 payload. `subscribe` is an array of topics to be subscribed to in this step. Any topics previously subscribed to, that are not in this set, are implicitly unsubscribed from. `disconnect` is a bool that makes the mqtt client disconnect. An example can be found [here](./example/simple-scenario.json).
 
 ## Credentials
 

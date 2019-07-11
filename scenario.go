@@ -17,7 +17,7 @@ type Publication struct {
 
 // Step contains the topics to subscribe to, the topics and payloads to publish, and the amount of time to wait after having done so
 type Step struct {
-	Subscribe  *[]string // null and emtpy have different semantics: null means no subscriptions update; empty means: subscribe to none
+	Subscribe  *[]string // null and empty have different semantics: null means no subscriptions update; empty means: subscribe to none
 	Publish    []Publication
 	Disconnect bool
 

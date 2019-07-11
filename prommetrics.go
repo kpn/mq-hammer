@@ -50,7 +50,7 @@ func newPrometheusMetrics(addr string) (*prometheusMetrics, error) {
 	pm.messageValidations = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 		Namespace: "mqhammer",
 		Name:      "message_validation_problems_total",
-		Help:      "number of message validations occured",
+		Help:      "number of message validations occurred",
 	}, []string{"error"})
 
 	pm.messages = prometheus.NewGaugeVec(prometheus.GaugeOpts{
