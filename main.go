@@ -11,7 +11,6 @@ import (
 
 	mqtt "github.com/rollulus/paho.mqtt.golang"
 
-	"github.com/rollulus/mq-hammer/pkg/hammer"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -47,7 +46,7 @@ func init() {
 	fs.StringVarP(&referenceFile, "ref", "r", "", "Filename with the expected reference data as JSON")
 	fs.IntVarP(&nAgents, "num-agents", "n", 1, "Number of agents to spin up")
 	fs.DurationVar(&sleep, "sleep", 250*time.Millisecond, "Duration to wait between spinning up each agent")
-	fs.StringVar(&clientIDPrefix, "client-id", "mq-hammer:"+hammer.GetVersion().GitTag+":", "Client ID prefix; a UUID is appended to it per agent to guarantee uniqueness")
+	fs.StringVar(&clientIDPrefix, "client-id", "mq-hammer:"+GetVersion().GitTag+":", "Client ID prefix; a UUID is appended to it per agent to guarantee uniqueness")
 	fs.StringVar(&agentLogFormat, "agent-logs", "", "Filename to output per-agent logs. Go-templated, e.g. 'agent-{{ .ClientID }}.log', or - to log to stderr")
 	fs.StringVarP(&username, "username", "u", "", "Username for connecting")
 	fs.StringVarP(&password, "password", "p", "", "Password for connecting")
@@ -114,7 +113,7 @@ var rootCmd = &cobra.Command{
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, args []string) error {
-		ver := hammer.GetVersion()
+		ver := GetVersion()
 		logrus.WithFields(logrus.Fields{"GitCommit": ver.GitCommit, "GitTag": ver.GitTag, "SemVer": ver.SemVer}).Infof("this is MQ Hammer")
 
 		// verbose?
@@ -205,7 +204,7 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print the version number of MQ Hammer",
 	Run: func(cmd *cobra.Command, args []string) {
-		ver := hammer.GetVersion()
+		ver := GetVersion()
 		fmt.Printf("MQ Hammer %s (%s) %s\n", ver.SemVer, ver.GitTag, ver.GitCommit)
 	}}
 

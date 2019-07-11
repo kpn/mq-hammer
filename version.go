@@ -1,4 +1,4 @@
-package hammer
+package main
 
 // plugged in during build
 var (
