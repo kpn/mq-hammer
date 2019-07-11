@@ -202,8 +202,10 @@ connectLoop:
 func mqttOpts(broker, user, pass, clientID string, insecure, disableTLS bool) *mqtt.ClientOptions {
 	o := mqtt.NewClientOptions()
 	o.SetClientID(clientID)
-	o.SetUsername(user)
-	o.SetPassword(pass)
+	if user != "" {
+		o.SetUsername(user)
+		o.SetPassword(pass)
+	}
 	o.SetAutoReconnect(false)
 	o.SetProtocolVersion(4) // set version to MQTT 3.1.1 and hence disable fallback to 3.1
 

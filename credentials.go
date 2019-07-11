@@ -9,7 +9,16 @@ import (
 // MqttCredentials provides mqtt credentials
 type MqttCredentials interface {
 	Get() (username string, password string, clientID string, err error) // a zero value for clientID means: generate one
-	Size() int
+}
+
+type fixedCreds struct {
+	username string
+	password string
+	clientID string
+}
+
+func (f *fixedCreds) Get() (string, string, string, error) {
+	return f.username, f.password, f.clientID, nil
 }
 
 type fileCreds struct {

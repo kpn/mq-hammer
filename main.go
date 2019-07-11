@@ -86,9 +86,6 @@ var rootCmd = &cobra.Command{
 		if scenarioFile == "" {
 			return errors.New("scenario cannot be empty")
 		}
-		if credentialsFile == "" {
-			return errors.New("credentials must be provided")
-		}
 
 		return nil
 	},
@@ -126,16 +123,18 @@ var rootCmd = &cobra.Command{
 
 		// mqtt creds from file
 		var creds MqttCredentials
+		creds = &fixedCreds{clientID: "asdfkuaoewriuweafksdjf"}
 		if credentialsFile != "" { // creds from file
 			logrus.WithFields(logrus.Fields{"credentialsFile": credentialsFile}).Infof("load credentials from file")
-			creds, err = newMqttCredentialsFromFile(credentialsFile)
+			fcreds, err := newMqttCredentialsFromFile(credentialsFile)
 			if err != nil {
 				return err
 			}
-			if nAgents > creds.Size() { // this test is only approximate, tokens might be used for mqtt metrics and distributed mode as well
-				return fmt.Errorf("cannot create %d agents with only %d tokens provided", nAgents, creds.Size())
+			if nAgents > fcreds.Size() { // this test is only approximate, tokens might be used for mqtt metrics and distributed mode as well
+				return fmt.Errorf("cannot create %d agents with only %d tokens provided", nAgents, fcreds.Size())
 			}
-			logrus.WithFields(logrus.Fields{"credentialsFile": credentialsFile, "nCredentials": creds.Size()}).Infof("loaded credentials from file")
+			creds = fcreds
+			logrus.WithFields(logrus.Fields{"credentialsFile": credentialsFile, "nCredentials": fcreds.Size()}).Infof("loaded credentials from file")
 		}
 
 		metricsHandlers := []MetricsHandler{&consoleMetrics{}}
