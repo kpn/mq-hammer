@@ -70,22 +70,23 @@ Note that `iot.eclipse.org` is a public sandbox broker [ran by the community](ht
     version     Print the version number of MQ Hammer
 
     Flags:
-        --agent-logs string    Output per-agent logs to this go-templated filename, e.g. 'agent-{{ .ClientID }}.log', or - to log to stderr
-        --broker string        Broker address
-        --client-id string     Client ID prefix; a UUID is appended to it anyway (default "mq-hammer:")
-        --credentials string   File with username,password and client id in CSV
+        --agent-logs string    Filename to output per-agent logs. Go-templated, e.g. 'agent-{{ .ClientID }}.log', or - to log to stderr
+    -b, --broker string        Broker address, host[:port]; port defaults to 8883 for TLS or 1883 for plain text 
+        --client-id string     Client ID prefix; a UUID is appended to it per agent to guarantee uniqueness (default "mq-hammer:v0.1.0-dirty:")
+        --credentials string   Filename with username,password and client id in CSV
         --disable-mqtt-tls     Disable TLS for MQTT, use plain tcp sockets to the MQTT broker
     -h, --help                 help for mqhammer
     -k, --insecure             Don't validate TLS hostnames / cert chains
     -n, --num-agents int       Number of agents to spin up (default 1)
         --prometheus string    Export Prometheus metrics at this address (default ":8080")
-        --ref string           File with the expected reference data as JSON
-        --scenario string      File containing the scenario as JSON
+    -r, --ref string           Filename with the expected reference data as JSON
+    -s, --scenario string      Filename containing the scenario as JSON
         --sleep duration       Duration to wait between spinning up each agent (default 250ms)
     -v, --verbose              Verbose: output paho mqtt's internal logging (crit, err and warn) to stderr
     -w, --verboser             Verboser: output paho mqtt's internal logging (crit, err, warn and debug) to stderr
 
     Use "mqhammer [command] --help" for more information about a command.
+
 
 Currently, the Scenarios are performed in this way: each agent starts at a random position and loops infinitely through the Scenario.
 
