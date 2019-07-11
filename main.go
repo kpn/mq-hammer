@@ -93,6 +93,11 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
+		// not sure if this is due diligence or plain silly, but it might be too tempting to crank up the number for someone following the quick start
+		if strings.Contains(brokerAddr, "iot.eclipse.org") && nAgents > 4 {
+			nAgents = 4
+		}
+
 		if scenarioFile == "" {
 			return errors.New("scenario cannot be empty")
 		}
