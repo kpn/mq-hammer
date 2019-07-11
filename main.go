@@ -35,6 +35,8 @@ var verbose bool
 var verboser bool
 
 func init() {
+	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
+
 	fs := rootCmd.PersistentFlags()
 	fs.StringVarP(&brokerAddr, "broker", "b", "", "Broker address, host[:port]; port defaults to 8883 for TLS or 1883 for plain text ")
 	fs.StringVarP(&scenarioFile, "scenario", "s", "", "Filename containing the scenario as JSON")
