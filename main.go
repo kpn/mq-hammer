@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"log"
@@ -31,6 +32,7 @@ var credentialsFile string
 var insecure bool
 var disableMqttTLS bool
 var prometheusSrv string
+var nssKeyLogFile string
 var verbose bool
 var verboser bool
 
@@ -48,6 +50,7 @@ func init() {
 	fs.StringVar(&credentialsFile, "credentials", "", "Filename with username,password and client id in CSV")
 	fs.BoolVarP(&insecure, "insecure", "k", false, "Don't validate TLS hostnames / cert chains")
 	fs.BoolVar(&disableMqttTLS, "disable-mqtt-tls", false, "Disable TLS for MQTT, use plain tcp sockets to the MQTT broker")
+	fs.StringVar(&nssKeyLogFile, "nss-key-log", "", "Filename to append TLS master secrets in NSS key log format to")
 	fs.StringVar(&prometheusSrv, "prometheus", ":8080", "Export Prometheus metrics at this address")
 	fs.BoolVarP(&verbose, "verbose", "v", false, "Verbose: output paho mqtt's internal logging (crit, err and warn) to stderr")
 	fs.BoolVarP(&verboser, "verboser", "w", false, "Verboser: output paho mqtt's internal logging (crit, err, warn and debug) to stderr")
@@ -153,6 +156,17 @@ var rootCmd = &cobra.Command{
 			logrus.WithFields(logrus.Fields{"credentialsFile": credentialsFile, "nCredentials": fcreds.Size()}).Infof("loaded credentials from file")
 		}
 
+		// tls config shared between agents
+		tlsCfg := &tls.Config{InsecureSkipVerify: insecure}
+		if nssKeyLogFile != "" {
+			w, err := os.OpenFile(nssKeyLogFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
+			if err != nil {
+				return err
+			}
+			logrus.WithFields(logrus.Fields{"filename": nssKeyLogFile}).Info("write TLS master secrets in NSS key log format")
+			tlsCfg.KeyLogWriter = w
+		}
+
 		metricsHandlers := []MetricsHandler{&consoleMetrics{}}
 
 		// expose prometheus metrics?
@@ -170,10 +184,7 @@ var rootCmd = &cobra.Command{
 		go eventFunnel.Process()
 
 		// create agent controller
-		ctl := newAgentController(brokerAddr, nAgents, agentLogFormat, sleep, creds, eventFunnel, refSet, scenario)
-		if insecure {
-			ctl.tlsInsecure = true
-		}
+		ctl := newAgentController(brokerAddr, tlsCfg, nAgents, agentLogFormat, sleep, creds, eventFunnel, refSet, scenario)
 		if disableMqttTLS {
 			ctl.disableMqttTLS = true
 		}

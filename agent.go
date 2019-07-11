@@ -199,7 +199,7 @@ connectLoop:
 }
 
 // mqttOpts converts the arguments into matching mqtt.ClientOptions
-func mqttOpts(broker, user, pass, clientID string, insecure, disableTLS bool) *mqtt.ClientOptions {
+func mqttOpts(broker, user, pass, clientID string, tlsConfig *tls.Config, disableTLS bool) *mqtt.ClientOptions {
 	o := mqtt.NewClientOptions()
 	o.SetClientID(clientID)
 	if user != "" {
@@ -208,11 +208,11 @@ func mqttOpts(broker, user, pass, clientID string, insecure, disableTLS bool) *m
 	}
 	o.SetAutoReconnect(false)
 	o.SetProtocolVersion(4) // set version to MQTT 3.1.1 and hence disable fallback to 3.1
+	o.SetTLSConfig(tlsConfig)
 
 	if disableTLS {
 		o.AddBroker("tcp://" + broker)
 	} else {
-		o.SetTLSConfig(&tls.Config{InsecureSkipVerify: insecure})
 		o.AddBroker("ssl://" + broker)
 	}
 

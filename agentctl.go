@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -16,14 +17,14 @@ type agentController struct {
 	refSet         ReferenceSet
 	steps          []Step
 	interval       time.Duration
-	tlsInsecure    bool
+	tlsConfig      *tls.Config
 	disableMqttTLS bool
 	agentLogFormat string
 
 	targetUpdate chan int
 }
 
-func newAgentController(brokerAddr string, target int, agentLogFormat string, interval time.Duration, creds MqttCredentials, eventFunnel EventFunnel, refSet ReferenceSet, steps []Step) *agentController {
+func newAgentController(brokerAddr string, tlsConfig *tls.Config, target int, agentLogFormat string, interval time.Duration, creds MqttCredentials, eventFunnel EventFunnel, refSet ReferenceSet, steps []Step) *agentController {
 	return &agentController{
 		active:         map[*agent]context.CancelFunc{},
 		brokerAddr:     brokerAddr,
@@ -33,6 +34,7 @@ func newAgentController(brokerAddr string, target int, agentLogFormat string, in
 		refSet:         refSet,
 		steps:          steps,
 		interval:       interval,
+		tlsConfig:      tlsConfig,
 		agentLogFormat: agentLogFormat,
 		targetUpdate:   make(chan int),
 	}
@@ -50,7 +52,7 @@ func (s *agentController) spawn(finished, broken chan *agent) (*agent, error) {
 		return nil, err
 	}
 
-	mqCliOpts := mqttOpts(s.brokerAddr, user, pass, clientID, s.tlsInsecure, s.disableMqttTLS)
+	mqCliOpts := mqttOpts(s.brokerAddr, user, pass, clientID, s.tlsConfig, s.disableMqttTLS)
 
 	var msgHandler MessageHandlerer
 	if s.refSet != nil {
@@ -59,8 +61,8 @@ func (s *agentController) spawn(finished, broken chan *agent) (*agent, error) {
 		msgHandler = newMessageHandler(clientID, s.eventFunnel, logger)
 	}
 
-	logrus.WithFields(logrus.Fields{"clientID": clientID, "log": filename, "broker": s.brokerAddr, "disableTls": s.disableMqttTLS, "insecure": s.tlsInsecure}).Infof("new agent")
-	logger.Infof("clientID: %s, broker: %s, disableMqttTls: %t, insecure: %t, user: %s, pass: %s", clientID, s.brokerAddr, s.disableMqttTLS, s.tlsInsecure, user, pass)
+	logrus.WithFields(logrus.Fields{"clientID": clientID, "log": filename, "broker": s.brokerAddr, "disableTls": s.disableMqttTLS}).Infof("new agent")
+	logger.Infof("clientID: %s, broker: %s, disableMqttTls: %t, user: %s, pass: %s", clientID, s.brokerAddr, s.disableMqttTLS, user, pass)
 
 	agent := newAgent(mqCliOpts, clientID, logger, msgHandler, s.eventFunnel)
 	s.eventFunnel.AddAgent(clientID)

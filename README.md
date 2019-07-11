@@ -77,6 +77,7 @@ Note that `iot.eclipse.org` is a public sandbox broker [ran by the community](ht
         --disable-mqtt-tls     Disable TLS for MQTT, use plain tcp sockets to the MQTT broker
     -h, --help                 help for mqhammer
     -k, --insecure             Don't validate TLS hostnames / cert chains
+        --nss-key-log string   Filename to append TLS master secrets in NSS key log format to
     -n, --num-agents int       Number of agents to spin up (default 1)
         --prometheus string    Export Prometheus metrics at this address (default ":8080")
     -r, --ref string           Filename with the expected reference data as JSON
@@ -87,8 +88,9 @@ Note that `iot.eclipse.org` is a public sandbox broker [ran by the community](ht
 
     Use "mqhammer [command] --help" for more information about a command.
 
+Scenarios are performed in this way: each agent starts at a random position and loops infinitely through the Scenario.
 
-Currently, the Scenarios are performed in this way: each agent starts at a random position and loops infinitely through the Scenario.
+For capturing packet dumps of TLS traffic, MQ Hammer can be instructed to output TLS master secrets in [NSS Key log format](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format) to a file. This file can be used in for instance Wireshark to decipher the encrypted traffic.
 
 ## Example
 

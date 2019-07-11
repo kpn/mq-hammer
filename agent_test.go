@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"errors"
 	"io"
 	"reflect"
@@ -305,7 +306,9 @@ func TestAgentPerformScenario(t *testing.T) {
 }
 
 func TestMqttOpts(t *testing.T) {
-	os := mqttOpts("b", "u", "p", "c", false, false)
+	cfg := &tls.Config{}
+	cfgInsec := &tls.Config{InsecureSkipVerify: true}
+	os := mqttOpts("b", "u", "p", "c", cfg, false)
 	if os.Username != "u" ||
 		os.Password != "p" ||
 		os.ClientID != "c" ||
@@ -313,8 +316,8 @@ func TestMqttOpts(t *testing.T) {
 		os.TLSConfig.InsecureSkipVerify {
 		t.Error()
 	}
-	os = mqttOpts("bb", "u", "p", "c", false, true)
-	if os.Servers[0].String() != "tcp://bb" {
+	os = mqttOpts("bb", "u", "p", "c", cfgInsec, true)
+	if os.Servers[0].String() != "tcp://bb" || !os.TLSConfig.InsecureSkipVerify {
 		t.Error()
 	}
 }
