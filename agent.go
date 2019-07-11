@@ -237,7 +237,7 @@ func newLoggerForAgent(clientID, templ string) (perAgentLogger, string, error) {
 		return nil, "", err
 	}
 	fn := res.String()
-	f, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0644)
+	f, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return nil, "", err
 	}

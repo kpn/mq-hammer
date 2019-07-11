@@ -1,14 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"sort"
 	"strings"
 	"time"
 
 	units "github.com/docker/go-units"
-	mqtt "github.com/rollulus/paho.mqtt.golang"
 	"github.com/sirupsen/logrus"
 )
 
@@ -177,38 +175,5 @@ func (c *consoleMetrics) HandleMetrics(m *Metrics) error {
 	logrus.Infof("t_lastMsg - t_firstMsg  : %s", CompleteMsgTime.String())
 	c.tLast = time.Now()
 	c.prev = *m
-	return nil
-}
-
-type mqttMetrics struct {
-	client     mqtt.Client
-	topic      string
-	interval   time.Duration
-	lastOutput time.Time
-}
-
-func (c *mqttMetrics) HandleMetrics(m *Metrics) error {
-	if time.Since(c.lastOutput) < c.interval {
-		return nil
-	}
-	if !c.client.IsConnected() {
-		if t := c.client.Connect(); t.Wait() && t.Error() != nil {
-			return fmt.Errorf("metrics publisher: %s", t.Error())
-		}
-	}
-
-	bs, err := json.Marshal(struct {
-		ProducedAt time.Time
-		Metrics
-	}{ProducedAt: time.Now(), Metrics: *m})
-	if err != nil {
-		return fmt.Errorf("metrics publisher: %s", err)
-	}
-
-	if t := c.client.Publish(c.topic, 0, true, bs); t.Wait() && t.Error() != nil {
-		return fmt.Errorf("metrics publisher: %s", t.Error())
-	}
-
-	c.lastOutput = time.Now()
 	return nil
 }

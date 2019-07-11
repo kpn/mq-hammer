@@ -23,25 +23,25 @@ func TestReferenceSetCache(t *testing.T) {
 
 	// exact
 	res := ref.GetMessages(t0)
-	if len(res) != 1 || bytes.Compare(res[t0], p0) != 0 {
+	if len(res) != 1 || !bytes.Equal(res[t0], p0) {
 		t.Fail()
 	}
 
 	// cached
 	res = ref.GetMessages(t0)
-	if len(res) != 1 || bytes.Compare(res[t0], p0) != 0 {
+	if len(res) != 1 || !bytes.Equal(res[t0], p0) {
 		t.Fail()
 	}
 
 	// wildcard
 	res = ref.GetMessages("/this/is/#")
-	if len(res) != 2 || bytes.Compare(res[t0], p0) != 0 || bytes.Compare(res[t1], p1) != 0 {
+	if len(res) != 2 || !bytes.Equal(res[t0], p0) || !bytes.Equal(res[t1], p1) {
 		t.Fail()
 	}
 
 	// wildcard cached
 	res = ref.GetMessages("/this/is/#")
-	if len(res) != 2 || bytes.Compare(res[t0], p0) != 0 || bytes.Compare(res[t1], p1) != 0 {
+	if len(res) != 2 || !bytes.Equal(res[t0], p0) || !bytes.Equal(res[t1], p1) {
 		t.Fail()
 	}
 

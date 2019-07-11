@@ -137,8 +137,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		// mqtt creds from file
-		var creds MqttCredentials
-		creds = &fixedCreds{clientID: clientIDPrefix}
+		var creds MqttCredentials = &fixedCreds{clientID: clientIDPrefix}
 		if credentialsFile != "" { // creds from file
 			logrus.WithFields(logrus.Fields{"credentialsFile": credentialsFile}).Infof("load credentials from file")
 			fcreds, err := newMqttCredentialsFromFile(credentialsFile)

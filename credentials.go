@@ -55,8 +55,3 @@ func (f *fileCreds) Get() (string, string, string, error) {
 func (f *fileCreds) Size() int {
 	return len(f.creds)
 }
-
-type mqttCredentialPair struct {
-	id    string
-	token string
-}

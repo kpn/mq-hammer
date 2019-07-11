@@ -148,7 +148,7 @@ func TestAgentPublish(t *testing.T) {
 			if topic != p.Topic {
 				t.Error()
 			}
-			if plbs := payload.([]byte); bytes.Compare(plbs, p.Payload) != 0 {
+			if plbs := payload.([]byte); !bytes.Equal(plbs, p.Payload) {
 				t.Error()
 			}
 			if retained {
