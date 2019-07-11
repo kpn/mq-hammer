@@ -79,14 +79,17 @@ Note that `iot.eclipse.org` is a public sandbox broker [ran by the community](ht
     -k, --insecure             Don't validate TLS hostnames / cert chains
         --nss-key-log string   Filename to append TLS master secrets in NSS key log format to
     -n, --num-agents int       Number of agents to spin up (default 1)
+    -p, --password string      Password for connecting
         --prometheus string    Export Prometheus metrics at this address (default ":8080")
     -r, --ref string           Filename with the expected reference data as JSON
     -s, --scenario string      Filename containing the scenario as JSON
         --sleep duration       Duration to wait between spinning up each agent (default 250ms)
+    -u, --username string      Username for connecting
     -v, --verbose              Verbose: output paho mqtt's internal logging (crit, err and warn) to stderr
     -w, --verboser             Verboser: output paho mqtt's internal logging (crit, err, warn and debug) to stderr
 
     Use "mqhammer [command] --help" for more information about a command.
+
 
 Scenarios are performed in this way: each agent starts at a random position and loops infinitely through the Scenario.
 

@@ -35,6 +35,8 @@ var prometheusSrv string
 var nssKeyLogFile string
 var verbose bool
 var verboser bool
+var username string
+var password string
 
 func init() {
 	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
@@ -47,6 +49,8 @@ func init() {
 	fs.DurationVar(&sleep, "sleep", 250*time.Millisecond, "Duration to wait between spinning up each agent")
 	fs.StringVar(&clientIDPrefix, "client-id", "mq-hammer:"+hammer.GetVersion().GitTag+":", "Client ID prefix; a UUID is appended to it per agent to guarantee uniqueness")
 	fs.StringVar(&agentLogFormat, "agent-logs", "", "Filename to output per-agent logs. Go-templated, e.g. 'agent-{{ .ClientID }}.log', or - to log to stderr")
+	fs.StringVarP(&username, "username", "u", "", "Username for connecting")
+	fs.StringVarP(&password, "password", "p", "", "Password for connecting")
 	fs.StringVar(&credentialsFile, "credentials", "", "Filename with username,password and client id in CSV")
 	fs.BoolVarP(&insecure, "insecure", "k", false, "Don't validate TLS hostnames / cert chains")
 	fs.BoolVar(&disableMqttTLS, "disable-mqtt-tls", false, "Disable TLS for MQTT, use plain tcp sockets to the MQTT broker")
@@ -142,7 +146,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		// mqtt creds from file
-		var creds MqttCredentials = &fixedCreds{clientID: clientIDPrefix}
+		var creds MqttCredentials = &fixedCreds{clientID: clientIDPrefix, username: username, password: password}
 		if credentialsFile != "" { // creds from file
 			logrus.WithFields(logrus.Fields{"credentialsFile": credentialsFile}).Infof("load credentials from file")
 			fcreds, err := newMqttCredentialsFromFile(credentialsFile)
