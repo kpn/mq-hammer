@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	mqtt "github.com/rollulus/paho.mqtt.golang"
@@ -79,10 +80,19 @@ var rootCmd = &cobra.Command{
     All arguments can be specified through identically named environment variables
     as well.`,
 	PreRunE: func(cmd *cobra.Command, args []string) error {
-
 		if brokerAddr == "" {
 			return errors.New("broker cannot be empty")
 		}
+
+		// plug in default ports if unspecified
+		if !strings.Contains(brokerAddr, ":") {
+			if disableMqttTLS {
+				brokerAddr += ":1883"
+			} else {
+				brokerAddr += ":8883"
+			}
+		}
+
 		if scenarioFile == "" {
 			return errors.New("scenario cannot be empty")
 		}
