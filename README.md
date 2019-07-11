@@ -22,6 +22,23 @@ With a working Go environment and `dep` installed, and after a:
 
 The binary will appear in `./build/mqhammer`.
 
+# :rocket: Quick Start
+
+In one terminal, subscribe with the [mosquitto client](https://mosquitto.org/download/):
+
+    mosquitto_sub -h iot.eclipse.org -t '/mq-hammer/#' -v
+
+In another terminal, run the example scenario with MQ Hammer:
+
+    ./build/mqhammer --broker iot.eclipse.org -n 1 --scenario example/simple-scenario.json
+
+While MQ Hammer runs, the mosquitto client will repeatedly output the following lines as MQ Hammer publishes:
+
+    /mq-hammer/favourite/bird rollulus
+    /mq-hammer/birds/rollulus rouloul
+
+Note that `iot.eclipse.org` is a public sandbox broker [ran by the community](https://iot.eclipse.org/getting-started/). Do not abuse it by running more than a few agents; use your own broker for that. And note that since it is a public broker, when you run the example you might see other MQ Hammer users doing the same.
+
 # :notebook: Usage
 
     $ ./build/mqhammer --help

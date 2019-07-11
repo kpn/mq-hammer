@@ -1,31 +1,31 @@
 [
     {
         "t":0,
-        "subscribe":["/test/hello/#"]
+        "subscribe":["/mq-hammer/hello/#"]
     },
     {
-        "t":3,
+        "t":1,
         "publish":[
             {
-                "topic":"/test/favourite/bird",
+                "topic":"/mq-hammer/favourite/bird",
                 "payload":"cm9sbHVsdXM="
             }
         ]
     },
     {
-        "t":6,
-        "subscribe":["/test/#"]
+        "t":3,
+        "subscribe":["/mq-hammer/#"]
     },
     {
-        "t":10,
+        "t":5,
         "disconnect":true
     },
     {
-        "t":19,
-        "subscribe":["/test/#","/real/#"],
+        "t":11,
+        "subscribe":["/mq-hammer/a/#","/mq-hammer/b/#"],
         "publish":[
             {
-                "topic":"/birds/rollulus",
+                "topic":"/mq-hammer/birds/rollulus",
                 "payload":"cm91bG91bA=="
             }
         ]
