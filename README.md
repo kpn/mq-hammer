@@ -73,7 +73,7 @@ Note that `iot.eclipse.org` is a public sandbox broker [ran by the community](ht
         --agent-logs string    Output per-agent logs to this go-templated filename, e.g. 'agent-{{ .ClientID }}.log', or - to log to stderr
         --broker string        Broker address
         --client-id string     Client ID prefix; a UUID is appended to it anyway (default "mq-hammer:")
-        --credentials string   File with credentials; TODO
+        --credentials string   File with username,password and client id in CSV
         --disable-mqtt-tls     Disable TLS for MQTT, use plain tcp sockets to the MQTT broker
     -h, --help                 help for mqhammer
     -k, --insecure             Don't validate TLS hostnames / cert chains

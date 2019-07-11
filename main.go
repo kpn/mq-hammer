@@ -43,7 +43,7 @@ func init() {
 	fs.DurationVar(&sleep, "sleep", 250*time.Millisecond, "Duration to wait between spinning up each agent")
 	fs.StringVar(&clientIDPrefix, "client-id", "mq-hammer:"+hammer.GetVersion().GitTag+":", "Client ID prefix; a UUID is appended to it anyway")
 	fs.StringVar(&agentLogFormat, "agent-logs", "", "Output per-agent logs to this go-templated filename, e.g. 'agent-{{ .ClientID }}.log', or - to log to stderr")
-	fs.StringVar(&credentialsFile, "credentials", "", "File with TODO")
+	fs.StringVar(&credentialsFile, "credentials", "", "File with username,password and client id in CSV")
 	fs.BoolVarP(&insecure, "insecure", "k", false, "Don't validate TLS hostnames / cert chains")
 	fs.BoolVar(&disableMqttTLS, "disable-mqtt-tls", false, "Disable TLS for MQTT, use plain tcp sockets to the MQTT broker")
 	fs.StringVar(&prometheusSrv, "prometheus", ":8080", "Export Prometheus metrics at this address")
