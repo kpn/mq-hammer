@@ -12,14 +12,14 @@ func TestNewScenarioFromReader(t *testing.T) {
 	j := `
 	[
 		{
-			"t":11,
-			"subscribe":["a"]
-		},
-		{
 			"t":15,
 			"subscribe":[],
 			"publish":[{"topic":"t","payload":"Y29vbAo="}]
 		},	
+		{
+			"t":11,
+			"subscribe":["a"]
+		},
 		{
 			"t":17,
 			"subscribe":["a"],

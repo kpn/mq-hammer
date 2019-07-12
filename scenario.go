@@ -6,6 +6,7 @@ import (
 	"io"
 	"math/rand"
 	"os"
+	"sort"
 	"time"
 )
 
@@ -114,12 +115,19 @@ func newScenarioFromFile(file string) ([]Step, error) {
 	return newScenarioFromReader(f)
 }
 
+type byTimestamp []Step
+
+func (s byTimestamp) Len() int           { return len(s) }
+func (s byTimestamp) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+func (s byTimestamp) Less(i, j int) bool { return s[i].T < s[j].T }
+
 // newScenarioFromFile loads from a reader json that contains instructions to which topics to subscribe at what moment
 func newScenarioFromReader(r io.Reader) ([]Step, error) {
 	var steps []Step
 	if err := json.NewDecoder(r).Decode(&steps); err != nil {
 		return nil, err
 	}
+	sort.Sort(byTimestamp(steps))
 	for i, q := range steps {
 		if i+1 < len(steps) {
 			steps[i].Wait = time.Duration((steps[i+1].T-q.T)*1000) * time.Millisecond
