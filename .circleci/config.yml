@@ -9,13 +9,24 @@ jobs:
       - run: make bootstrap
       - run: make test
       - run: make github_release
+  test:
+    docker:
+      - image: circleci/golang:1.10
+    working_directory: /go/src/github.com/rollulus/mq-hammer
+    steps:
+      - checkout
+      - run: make bootstrap
+      - run: make test
 workflows:
   version: 2
   release:
     jobs:
       - release:
           filters:
-            branches:
-              only: master
             tags:
               only: /v[0-9]+(\.[0-9]+)*(-.*)*/
+            branches:
+              ignore: /.*/
+  test:
+    jobs:
+      - test
