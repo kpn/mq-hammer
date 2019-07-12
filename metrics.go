@@ -152,7 +152,7 @@ func (c *consoleMetrics) HandleMetrics(m *Metrics) error {
 		return nil
 	}
 	dt := time.Since(c.tLast).Seconds()
-	logrus.Infof("ag=%d subs=%d (%.1f/s) unsubs=%d (%.1f/s) pubs=%d (%.1f/s) %s inmsgs=%d (%.1f/s) %s unexp=%d dup=%d miss=%d badpl=%d err={%s}",
+	logrus.Infof("ag=%d subs=%d (%.1f/s) unsubs=%d (%.1f/s) pubs=%d (%.1f/s) %s inmsgs=%d (%.1f/s) %s ref={%s} err={%s}",
 		m.Agents,
 		m.Subscribes,
 		float64(m.Subscribes-c.prev.Subscribes)/dt,
@@ -164,10 +164,7 @@ func (c *consoleMetrics) HandleMetrics(m *Metrics) error {
 		m.RxMessages,
 		float64(m.RxMessages-c.prev.RxMessages)/dt,
 		units.HumanSize(float64(m.RxBytes)),
-		m.Unexpected,
-		m.Duplicate,
-		m.Missing,
-		m.BadPayload,
+		fmt.Sprintf("unexp=%d,dup=%d,miss=%d,badpl=%d", m.Unexpected, m.Duplicate, m.Missing, m.BadPayload),
 		fmt.Sprintf("c=%d,p=%d,s=%d,u=%d", m.MqttError.Connect, m.MqttError.Publish, m.MqttError.Subscribe, m.MqttError.Unsubscribe),
 	)
 	logrus.Infof("t_connect               : %s", ConnTime.String())
