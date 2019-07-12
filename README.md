@@ -18,6 +18,10 @@ One application of MQ Hammer is load testing. Another possible application is to
 
 Binaries for Linux and macOS are available from the [releases](https://github.com/rollulus/mq-hammer/releases/) page.
 
+A docker image is available on dockerhub, rollulus/mq-hammer:latest
+
+    docker run -it rollulus/mq-hammer:latest version
+
 For manual building, assuming a working Go environment and `dep` installed:
 
     make bootstrap test build

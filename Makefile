@@ -3,6 +3,7 @@ BUILD_DIR ?= build
 GOCMD=go
 GOBUILD=$(GOCMD) build
 GOTEST=$(GOCMD) test
+DOCKER_IMAGE=rollulus/mq-hammer
 
 # get version info from git's tags
 GIT_COMMIT := $(shell git rev-parse HEAD)
@@ -19,6 +20,10 @@ LD_RELEASE_FLAGS += -X main.SemVer=${VERSION}
 all: test build
 build:
 		$(GOBUILD) -ldflags "$(LD_RELEASE_FLAGS)" -o $(BUILD_DIR)/$(BINARY_NAME) -v
+
+# builds the binary suitable for the docker image
+docker_binary:
+		GOOS=linux GOARCH=amd64 CGO_ENABLED=0 $(GOBUILD) -ldflags "$(LD_RELEASE_FLAGS)" -o $(BUILD_DIR)/$(BINARY_NAME) -v
 test:
 		$(GOTEST) -v ./...
 clean:
@@ -30,3 +35,13 @@ bootstrap:
 
 github_release:
 	curl -sL https://git.io/goreleaser | GIT_TAG=${GIT_TAG} bash
+
+docker: docker_binary
+	docker build -t $(DOCKER_IMAGE) .	
+	docker run -it $(DOCKER_IMAGE) version
+	docker tag $(DOCKER_IMAGE) $(DOCKER_IMAGE):latest
+	docker tag $(DOCKER_IMAGE) $(DOCKER_IMAGE):$(GIT_TAG)
+
+docker_release: docker
+	docker push $(DOCKER_IMAGE):$(GIT_TAG)
+	docker push $(DOCKER_IMAGE):latest
