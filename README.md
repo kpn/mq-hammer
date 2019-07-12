@@ -16,11 +16,13 @@ One application of MQ Hammer is load testing. Another possible application is to
 
 # :construction_worker: Building
 
-With a working Go environment and `dep` installed, and after a:
+Binaries for Linux and macOS are available from the [releases](https://github.com/rollulus/mq-hammer/releases/) page.
+
+For manual building, assuming a working Go environment and `dep` installed:
 
     make bootstrap test build
 
-The binary will appear in `./build/mqhammer`.
+Will produce a binary in `./build/`.
 
 # :rocket: Quick Start
 
