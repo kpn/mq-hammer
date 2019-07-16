@@ -3,7 +3,7 @@ jobs:
   release:
     docker:
       - image: circleci/golang:1.10
-    working_directory: /go/src/github.com/rollulus/mq-hammer
+    working_directory: /go/src/github.com/kpn/mq-hammer
     steps:
       - checkout
       - run: make bootstrap
@@ -12,7 +12,7 @@ jobs:
   release-docker:
     docker:
       - image: circleci/golang:1.10
-    working_directory: /go/src/github.com/rollulus/mq-hammer
+    working_directory: /go/src/github.com/kpn/mq-hammer
     steps:
       - checkout
       - setup_remote_docker:
@@ -24,7 +24,7 @@ jobs:
   test:
     docker:
       - image: circleci/golang:1.10
-    working_directory: /go/src/github.com/rollulus/mq-hammer
+    working_directory: /go/src/github.com/kpn/mq-hammer
     steps:
       - checkout
       - run: make bootstrap

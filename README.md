@@ -1,5 +1,8 @@
 # MQ Hammer
 
+[![CircleCI](https://circleci.com/gh/kpn/mq-hammer.svg?style=svg)](https://circleci.com/gh/kpn/mq-hammer)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kpn/mq-hammer)](https://goreportcard.com/report/github.com/kpn/mq-hammer)
+
 MQ Hammer is an MQTT load testing and monitoring tool.
 
 Stop! Hammer time! 
@@ -16,7 +19,7 @@ One application of MQ Hammer is load testing. Another possible application is to
 
 # :construction_worker: Building
 
-Binaries for Linux and macOS are available from the [releases](https://github.com/rollulus/mq-hammer/releases/) page.
+Binaries for Linux and macOS are available from the [releases](https://github.com/kpn/mq-hammer/releases/) page.
 
 A docker image is available on [dockerhub](https://hub.docker.com/r/rollulus/mq-hammer), e.g.:
 
