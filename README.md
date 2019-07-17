@@ -108,7 +108,7 @@ For capturing packet dumps of TLS traffic, MQ Hammer can be instructed to output
 
 ### Verifying retained message with a reference set
 
-First, publish the expected retained messages exist on the broker:
+First, publish the expected retained messages on the broker:
 
     ./example/retained/publish-reference-set.sh iot.eclipse.org
 
