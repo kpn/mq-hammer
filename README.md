@@ -39,7 +39,7 @@ In one terminal, subscribe with the [mosquitto client](https://mosquitto.org/dow
 
 In another terminal, run the example scenario with MQ Hammer:
 
-    ./build/mqhammer --broker iot.eclipse.org -n 1 --scenario example/simple-scenario.json
+    ./build/mqhammer --broker iot.eclipse.org -n 1 --scenario example/quick-start/scenario.json
 
 While MQ Hammer runs, the mosquitto client will repeatedly output the following lines as MQ Hammer publishes:
 
@@ -104,9 +104,19 @@ Scenarios are performed in this way: each agent starts at a random position and 
 
 For capturing packet dumps of TLS traffic, MQ Hammer can be instructed to output TLS master secrets in [NSS Key log format](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format) to a file. This file can be used in for instance Wireshark to decipher the encrypted traffic.
 
-## Example
+## Examples
 
-TODO
+### Verifying retained message with a reference set
+
+First, publish the expected retained messages exist on the broker:
+
+    ./example/retained/publish-reference-set.sh iot.eclipse.org
+
+Next, run MQ Hammer, and point it at the reference set:
+
+    ./build/mqhammer --broker iot.eclipse.org -n 1 --scenario example/retained/scenario.json --ref example/retained/reference.json
+
+With the reference set, MQ Hammer knows what messages to expect after a subscribe, and tests for their existence and correctness.
 
 # :chart_with_upwards_trend: Metrics
 

@@ -1,0 +1,18 @@
+[
+    {
+        "t":0,
+        "subscribe":["/mq-hammer/retained/#"]
+    },
+    {
+        "t":2.5,
+        "subscribe":[]
+    },
+    {
+        "t":5,
+        "subscribe":["/mq-hammer/retained/a/b/c/#"]
+    },
+    {
+        "t":7.5,
+        "subscribe":[]
+    }
+]
