@@ -3,7 +3,7 @@ BUILD_DIR ?= build
 GOCMD=go
 GOBUILD=$(GOCMD) build
 GOTEST=$(GOCMD) test
-DOCKER_IMAGE=kpnnv/mq-hammer
+DOCKER_IMAGE=kpnnl/mq-hammer
 
 # get version info from git's tags
 GIT_COMMIT := $(shell git rev-parse HEAD)
