@@ -21,9 +21,9 @@ One application of MQ Hammer is load testing. Another possible application is to
 
 Binaries for Linux and macOS are available from the [releases](https://github.com/kpn/mq-hammer/releases/) page.
 
-A docker image is available on [dockerhub](https://hub.docker.com/r/kpnnv/mq-hammer), e.g.:
+A docker image is available on [dockerhub](https://hub.docker.com/r/kpnnl/mq-hammer), e.g.:
 
-    docker run -it kpnnv/mq-hammer version
+    docker run -it kpnnl/mq-hammer version
 
 For manual building, assuming a working Go environment and `dep` installed:
 
